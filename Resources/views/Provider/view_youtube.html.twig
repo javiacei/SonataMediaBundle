@@ -9,6 +9,7 @@ file that was distributed with this source code.
 
 #}
 
+{#
 <object width="{{ options.width }}" height="{{ options.height }}">
     <param name="movie" value="http://www.youtube.com/v/{{ media.providerreference }}?{{ options.player_parameters }}"></param>
     <param name="allowFullScreen" value="{{ options.allowFullScreen }}"></param>
@@ -23,3 +24,13 @@ file that was distributed with this source code.
         height="{{ options.height }}">
     </embed>
 </object>
+#}
+<iframe
+  class="youtube-player"
+  type="text/html"
+  width="{{ options.width }}"
+  height="{{ options.height }}"
+  src="http://www.youtube.com/embed/{{ media.providerreference }}?{{ options.player_parameters }}"
+  frameborder="0">
+
+</iframe>
