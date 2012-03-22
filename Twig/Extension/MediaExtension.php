@@ -1,5 +1,8 @@
 <?php
 
+/* vim: set expandtab tabstop=4 shiftwidth=4: */
+
+
 /*
  * This file is part of sonata-project.
  *
@@ -69,7 +72,7 @@ class MediaExtension extends \Twig_Extension
      * @param array $options
      * @return string
      */
-    public function media($media = null, $format, $options = array())
+    public function media($media = null, $format, $options = array(), $template = null)
     {
         $media = $this->getMedia($media);
 
@@ -85,7 +88,11 @@ class MediaExtension extends \Twig_Extension
 
         $options = $provider->getHelperProperties($media, $format, $options);
 
-        return $this->render($provider->getTemplate('helper_view'), array(
+        $template = (null !== $template) ? $template : $provider->getTemplate('helper_view');
+
+        $options['full'] = $provider->getHelperProperties($media, 'reference');
+
+        return $this->render($template, array(
             'media'    => $media,
             'format'   => $format,
             'options'  => $options,
@@ -191,5 +198,16 @@ class MediaExtension extends \Twig_Extension
     public function getMediaService()
     {
         return $this->mediaService;
+    }
+
+    /**
+     * @return array
+     * @see \Twig_Extension
+     */
+    public function getFunctions()
+    {
+        return array(
+            'media' => new \Twig_Function_Method($this, 'media', array('is_safe' => array('html')))
+        );
     }
 }
